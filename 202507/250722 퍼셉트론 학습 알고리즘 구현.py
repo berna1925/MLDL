@@ -27,7 +27,6 @@ class Perceptron() :
 
             for xi, target in zip(X, y) :
                 update = - self.eta * (self.predict(xi) - target)
-                # 가중치를 갱신할 때 쓰는 -η ∂L/∂w = -η(y_hat - y)를 수식화한 것
                 self.w += update * xi
                 # w := w - η(y_hat - y)x
                 self.b += update
