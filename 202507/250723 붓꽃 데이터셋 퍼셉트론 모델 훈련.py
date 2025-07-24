@@ -1,23 +1,25 @@
 import numpy as np
 import os
 
-class Perceptron() :
-    # 사전 설정 함수 __init__ 정의
-    def __init__(self, eta=0.01, n_iter=50, random_state=0) :
+class Perceptron():
+    def __init__(self, eta=0.01, n_iter=50, random_state=0):
         self.eta = eta
         self.n_iter = n_iter
         self.random_state = random_state
 
-    def fit(self, X, y) :
+    def fit(self, X, y):
         inputs = np.random.default_rng(self.random_state)
         self.w = inputs.normal(loc=0.0, scale=0.01, size=X.shape[1])
         self.b = float(0)
         self.error = []
 
-        for _ in range(self.n_iter) :
+        for _ in range(self.n_iter):
             error = 0
 
-            for xi, target in zip(X, y) :
+            # X와 y의 길이가 다르면 zip이 짧은 쪽에 맞춰서 반복합니다.
+            # 이 때문에 학습이 제대로 안 될 수 있습니다.
+            for xi, target in zip(X, y):
+                # predict 내부에서 self.w와 self.b가 사용됨
                 update = - self.eta * (self.predict(xi) - target)
                 self.w += update * xi
                 self.b += update
@@ -27,28 +29,28 @@ class Perceptron() :
 
         return self
 
-    def net_input(self, X) :
+    def net_input(self, X):
         return np.dot(X, self.w) + self.b
 
-    def predict(self, X) :
+    def predict(self, X):
         return np.where(self.net_input(X) >= 0, 1, 0)
 
 X = np.array([[1, 3],
               [5, 7]])
-y = np.array([0, 1, 0, 1])
+y = np.array([0, 1])
 
-model = Perceptron()
+model = Perceptron(eta=0.01, n_iter=20)
 model.fit(X, y)
 predictions = model.predict(X)
 
 import pandas as pd
-
+# iris 데이터 다운로드
 df = pd.read_excel('iris_data.xlsx', header=None)
 
 import matplotlib.pyplot as plt
-
+# df에서 원하는 자료를 추출해 np.ndarray로 변형
 y = df.iloc[:, 4].values
-y = np.where(y == 'Iris-setosa', 0, 1)
+y = np.where(y == 'Iris-setosa', 0, 1)  # setosa면 0, 다른 종은 1로 변환
 X = df.iloc[:, [0, 2]].values
 
 plt.scatter(X[:50, 0], X[:50, 1], color='red', marker='o', label='setosa')
@@ -57,8 +59,6 @@ plt.xlabel('length of sepal')
 plt.ylabel('length of petal')
 plt.legend(loc='best')
 # plt.show()
-
-
 
 from matplotlib.colors import ListedColormap
 
