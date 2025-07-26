@@ -20,10 +20,11 @@ class Perceptron():
             # 이 때문에 학습이 제대로 안 될 수 있습니다.
             for xi, target in zip(X, y):
                 # predict 내부에서 self.w와 self.b가 사용됨
-                update = - self.eta * (self.predict(xi) - target)
-                self.w += update * xi
-                self.b += update
-                error += int(update != 0.0)
+                self.w += self.eta * xi * (target - self.predict(xi))
+                self.b += self.eta * (target - self.predict(xi))
+                error += int(self.eta * (target - self.predict(xi)) != 0.0)
+                # 원리적으로 다른 코드와 통일하기 위해 이렇게 썼지만
+                # self.eta ~ 항이 너무 길기 때문에 다른 이름의 변수로 미리 지정해 놓고 써도 ok
 
             self.error.append(error)
 

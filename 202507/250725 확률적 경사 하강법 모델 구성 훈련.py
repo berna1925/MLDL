@@ -29,9 +29,11 @@ class AdalineSGD() :
     # 데이터 순서에 랜덤성 부여
     def shuffle(self, X, y) :
         # np.random.permutation으로 인덱스에 랜덤성 부여
+        # 굳이 self.v를 끌어다 쓰는 이유는 랜덤성이 일관성 있게 부여되도록 하기 위함
         random_order = self.v.permutation(X.shape[0])
+        # np.random.permutation이라 쓰면 전역 랜덤 변수가 되어 클래스/함수 범위 내에서 작동하도록 하는 취지에 맞지 않게 됨
 
-        # X와 r이 매번 랜덤한 순서로 데이터를 가져오도록 명령
+        # X와 r이 매 에폭마다 랜덤한 순서로 데이터를 가져오도록 명령
         return X[random_order], y[random_order]
 
     # 학습 모델 구성
@@ -74,8 +76,10 @@ class AdalineSGD() :
         error = target - output
 
         # 가중치 업데이트 방식(경사하강법의 고전적인 공식 활용)
-        self.w += self.eta * 2 * error * xi
+        self.w += self.eta * 2 * xi * error
         self.b += self.eta * 2 * error
+        # 아달린에서 나오는 self.w += self.eta * 2 * (X.T @ error) / X.shape[0]은 배치 전체를 한 번에 계산하는 방식
+        # SGD는 한 줄씩 샘플을 따와서 계산하므로 일반적 경사하강법식인 w := w - η * (∂L/∂w) = w - η * (2 * xi * error)로 계산
 
         # MSE 계산을 위해 오차 제곱을 반환
         loss = error ** 2

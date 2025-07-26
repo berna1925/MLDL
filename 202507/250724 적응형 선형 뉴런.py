@@ -27,7 +27,7 @@ class AdalineGD() :
             self.w += self.eta * 2 * (X.T @ error) / X.shape[0]
             # w := w - η (∂L/∂w) = w + n (-∂L/∂w)
             # 업데이트되는 가중치의 값은 학습률에 미분 값을 곱한 수치를 빼는 것
-            # MSE의 식을 w_i로 각각 미분하면 -∂L/∂w = 2 * (X.T @ error) / X.shape[0]
+            # MSE의 식을 w_i로 각각 미분하면 -∂L/∂w = 2 * (X.T @ error)[스칼라 값이므로 시그마와 동일] / X.shape[0]
             # 왜 -가 붙냐면 y에서 y_hat을 빼기 때문...
 
             self.b += self.eta * 2 * error.mean()
