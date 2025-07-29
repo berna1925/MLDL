@@ -86,5 +86,13 @@ from sklearn import tree
 feature_names = ['Sepal length', 'Sepal width', 'Petal length', 'Petal width']
 
 # sklearn의 tree 모듈에서 feature_names에 분류 기준 인자를 설정해 나무 모형 시각화
-tree.plot_tree(dtc, feature_names=feature_names, filled=True)
+# tree.plot_tree(dtc, feature_names=feature_names, filled=True)
+# plt.show()
+
+from sklearn.ensemble import RandomForestClassifier
+rfc = RandomForestClassifier(random_state=0, max_depth=3, n_estimators=20, ccp_alpha=0.01)
+rfc.fit(X_train, y_train)
+
+plot_decision_regions(X_combined, y_combined, rfc)
+plt.tight_layout()
 plt.show()
