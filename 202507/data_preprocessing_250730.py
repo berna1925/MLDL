@@ -15,6 +15,7 @@ df = pd.read_csv(StringIO(csv_data))
 print(df.dropna(thresh=4))
 print()
 
+# 자료의 형태에 손대는 imputer와 transformer
 from sklearn.impute import SimpleImputer
 import numpy as np
 # 열 단위로 통계적 연산을 진행해 결측치나 특정 값을 대체해주는 SimpleImputer
