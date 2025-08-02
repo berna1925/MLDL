@@ -49,6 +49,7 @@ eigen_pairs.sort(key=lambda x : x[0], reverse=True)
 
 # 첫 두 고유값에 해당하는 고유 벡터를 배열 형태로 추출
 # 원래 (3, )인 shape을 축을 하나 더 만들어 공간을 한 차원 높이는 np,newaxis로 (3, 1)로 증강
+# np.stack류 메서드로 배열을 만들고 행렬별 곱셈이 가능한 shape으로 만들기 위해 고유벡터 값을 변형해 저장
 w = np.hstack([eigen_pairs[0][1][:, np.newaxis], eigen_pairs[1][1][:, np.newaxis]])
 
 X_train_pca = X_train_scaled @ w
