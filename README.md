@@ -16,20 +16,18 @@
 * 직접 구현한 모델과 `sklearn` 버전의 **출력 비교**
 * 모델별 구현 코드 및 수학적 도식 포함
 
-## 다루는 모델
+## 학습 과정
 
-* 선형 회귀 (Linear Regression)
-* 로지스틱 회귀 (Logistic Regression)
-* 주성분 분석 (PCA)
-* LDA (Linear Discriminant Analysis)
-* K-평균 클러스터링 (K-Means Clustering)
-* 기타 모델은 지속적으로 추가 예정
+* Basic Perceptron부터 시작하는 학습 과정 구현
+* SGD 구현을 통한 각 학습법의 차이 이해
+* 다양한 인코딩 기법을 통한 데이터 전처리 방식 습득
+* PCA, LDA 등을 통한 차원 축소 기법 학습
+* 기타 내용은 지속적으로 추가 예정
 
 ## 예제 실행 환경
 
-* Python 3.x
-* NumPy, pandas, matplotlib
-* scikit-learn
+* Python 3.13
+* numpy, pandas, matplotlib, scikit-learn 사용
 
 ## 디렉토리 구조
 
