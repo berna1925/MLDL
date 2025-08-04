@@ -16,8 +16,7 @@ class Perceptron():
         for _ in range(self.n_iter):
             error = 0
 
-            # X와 y의 길이가 다르면 zip이 짧은 쪽에 맞춰서 반복합니다.
-            # 이 때문에 학습이 제대로 안 될 수 있습니다.
+            # X와 y의 길이가 다르면 zip이 짧은 쪽에 맞춰서 반복
             for xi, target in zip(X, y):
                 # predict 내부에서 self.w와 self.b가 사용됨
                 self.w += self.eta * xi * (target - self.predict(xi))
