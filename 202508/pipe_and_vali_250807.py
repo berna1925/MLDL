@@ -77,3 +77,67 @@ print()
 
 #==========================================================================================================
 
+# 검증 과정의 시각화 1 - 학습 곡선 learning_curve
+
+import matplotlib.pyplot as plt
+from sklearn.model_selection import learning_curve
+pl = Pipeline([
+    ('ss', StandardScaler()),
+    ('logisticregression', LogisticRegression())
+])
+
+train_sizes, train_scores, test_scores = learning_curve(pl, X_train, y_train,
+                                                        cv=StratifiedKFold(n_splits=10),
+                                                        train_sizes=np.linspace(0.1, 1, 10),
+                                                        n_jobs=-1)
+train_mean = np.mean(train_scores, axis=1)
+train_std = np.std(train_scores, axis=1)
+test_mean = np.mean(test_scores, axis=1)
+test_std = np.std(test_scores, axis=1)
+
+# plt.plot(train_sizes, train_mean, marker='o', color='royalblue', label='training data accuracy')
+# plt.plot(train_sizes, test_mean, marker='s', color='green', label='validating data accuracy')
+#
+# plt.fill_between(train_sizes, train_mean + train_std, train_mean - train_std, alpha=0.2, color='blue')
+# plt.fill_between(train_sizes, test_mean + test_std, test_mean - test_std, alpha=0.2, color='green')
+
+plt.xlabel('train_sizes')
+plt.ylabel('accuracy for data type')
+plt.legend(loc='best')
+plt.ylim([0.85, 1.05])
+
+# plt.tight_layout()
+# plt.show()
+
+
+# 하이퍼파라미터 범위 단위를 x축으로 삼아 하이퍼파라미터 변화에 따른 검증 수치 변화를 추적하는 validation_score
+from sklearn.model_selection import validation_curve
+c_range = [0.001, 0.01, 0.1, 1, 10, 100]
+
+# 샘플 사이즈 대신 하이퍼파라미터가 들어가므로 train_sizes 변수가 삭제
+train_scores, test_scores = validation_curve(pl, X_train, y_train,
+                                             # 대신  params_name으로 하이퍼파라미터 이름을,
+                                             param_name='logisticregression__C',
+                                             # params_range로 하이퍼파라미터 범위를 지정
+                                             param_range=c_range, cv=10)
+
+# 기타 표현법은 learning_curve와 동일
+train_mean_val = np.mean(train_scores, axis=1)
+train_std_val = np.std(train_scores, axis=1)
+test_mean_val = np.mean(test_scores, axis=1)
+test_std_val = np.std(test_scores, axis=1)
+
+plt.plot(c_range, train_mean_val, marker='o', c='royalblue', label='accuracy of train_data')
+plt.plot(c_range, test_mean_val, marker='s', c='green', label='accuracy of val_data')
+
+plt.fill_between(c_range, train_mean_val + train_std_val, train_mean_val - train_std_val, alpha=0.2, color='blue')
+plt.fill_between(c_range, test_mean_val + test_std_val, test_mean_val - test_std_val, alpha=0.2, color='green')
+
+plt.xscale('log')
+plt.ylim([0.7, 1.05])
+plt.xlabel('C_range')
+plt.ylabel('accuracy')
+plt.legend(loc='best')
+
+plt.tight_layout()
+plt.show()
