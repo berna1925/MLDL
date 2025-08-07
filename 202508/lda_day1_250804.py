@@ -23,11 +23,12 @@ X_test_scaled = ss.transform(X_test)
 #===============================================================================
 # 클래스 내부 분산 계산
 import numpy as np
-np.set_printoptions(precision=4)
+np.set_printoptions(precision=3)
 mean_vectors = []
 
 for label in range(1, 4) :
     # 레이블이 같은 행 벡터들을 모아 인덱스가 같은 원소들의 평균을 구해 평균 벡터 계산
+    # 클래스별 평균 벡터를 차례로 mean_vectors에 저장
     mean_vectors.append(np.mean(X_train_scaled[y_train == label], axis=0))
 
 d = X_train_scaled.shape[1]
@@ -67,6 +68,8 @@ for label, mv in zip(range(1, 4), mean_vectors):
     # 클래스별로 데이터 수 계산
     n = X_train_scaled[y_train == label, :].shape[0]
     mv = mv.reshape(d, 1)
+    # Sw를 구할 땐 샘플 속 개별 단위 벡터에서 클래스 평균을 빼고
+    # Sb를 구할 땐 클래스 그룹 평균을 개별 단위로 보고 그룹별 평균에서 전체 평균을 빼는 구조
     # 클래스별 샘플 크기를 분산 반영 정도에 가중치로 실어 클래스별 영향력 차이를 강조
     sb += n * (mv - mean_overall) @ (mv - mean_overall).T
 
